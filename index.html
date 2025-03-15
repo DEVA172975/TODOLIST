@@ -105,58 +105,61 @@
 
     <script>
         const obj = document.getElementById('task-input');
-        const obj1 = document.getElementsByClassName('list-body')[0];
-        const obj4 = document.getElementById('pending-tasks');
-        const tasks = [];
-        let count = 0;
+const obj1 = document.querySelector('.list-body');
+const obj4 = document.getElementById('pending-tasks');
+const tasks = [];
+let count = 0;
 
-        function addNewTask() {
-            if (obj.value.trim() !== "") {
-                tasks.push(obj.value.trim());
-                count++;
-                obj.value = ""; // Clear input field
-                render();
-            }
-        }
+function addNewTask() {
+    if (obj.value.trim() !== "") {
+        tasks.push(obj.value.trim());
+        count++;
+        obj.value = ""; // Clear input field
+        render();
+    }
+}
 
-        function deleteTask(index) {
-            tasks.splice(index, 1);
-            count--;
-            render();
-        }
+function deleteTask(index) {
+    const taskPara = document.getElementById(`task-para-${index}`);
+    if (taskPara && taskPara.style.textDecoration !== 'line-through') {
+        count--;
+    }
+    tasks.splice(index, 1);
+    render();
+}
 
-        function reset() {
-            tasks.length = 0;
-            count = 0;
-            render();
-        }
+function reset() {
+    tasks.length = 0;
+    count = 0;
+    render();
+}
 
-        function done(obj2, index) {
-            const taskPara = document.getElementById(task-para-${index});
-            if (obj2.checked) {
-                taskPara.style.textDecoration = 'line-through';
-                count--;
-            } else {
-                taskPara.style.textDecoration = 'none';
-                count++;
-            }
-            obj4.innerHTML = Pendings: ${count};
-        }
+function done(obj2, index) {
+    const taskPara = document.getElementById(`task-para-${index}`);
+    if (obj2.checked) {
+        taskPara.style.textDecoration = 'line-through';
+        count--;
+    } else {
+        taskPara.style.textDecoration = 'none';
+        count++;
+    }
+    obj4.innerHTML = `Pendings: ${count}`;
+}
 
-        function render() {
-            let htmlData = "";
-            for (let i = tasks.length - 1; i >= 0; i--) {
-                htmlData += `
-                <div class="list-item">
-                    <input type="checkbox" onclick="done(this, ${i})" />
-                    <p id="task-para-${i}">${tasks[i]}</p>
-                    <button onclick="deleteTask(${i})">X</button>
-                </div>
-                `;
-            }
-            obj1.innerHTML = htmlData;
-            obj4.innerHTML = Pendings: ${count};
-        }
-    </script>
+function render() {
+    let htmlData = "";
+    for (let i = tasks.length - 1; i >= 0; i--) {
+        htmlData += `
+        <div class="list-item">
+            <input type="checkbox" onclick="done(this, ${i})" />
+            <p id="task-para-${i}">${tasks[i]}</p>
+            <button onclick="deleteTask(${i})">X</button>
+        </div>
+        `;
+    }
+    obj1.innerHTML = htmlData;
+    obj4.innerHTML = `Pendings: ${count}`;
+}
+</Script>
 </body>
 </html>
