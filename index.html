@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #a1393c, #d35b3a);
+            margin: 0;
+        }
+
+        .list-container {
+            width: 350px;
+            min-height: 250px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .list-header {
+            display: flex;
+            gap: 10px;
+        }
+
+        #task-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #e63946;
+        }
+
+        .list-body {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            transition: 0.3s;
+        }
+
+        .list-item:hover {
+            background: #f5c6cb;
+        }
+
+        .list-item input[type="checkbox"] {
+            accent-color: #e63946;
+        }
+
+        .list-item p {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        .list-foot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="list-container">
+        <div class="list-header">
+            <input type="text" id="task-input" placeholder="Enter a task..." />
+            <button onclick="addNewTask()">Add</button>
+        </div>
+        <div class="list-body"></div>
+        <div class="list-foot">
+            <p id="pending-tasks">Pendings: 0</p>
+            <button onclick="reset()">Clear All</button>
+        </div>
+    </div>
+
+    <script>
+        const obj = document.getElementById('task-input');
+        const obj1 = document.getElementsByClassName('list-body')[0];
+        const obj4 = document.getElementById('pending-tasks');
+        const tasks = [];
+        let count = 0;
+
+        function addNewTask() {
+            if (obj.value.trim() !== "") {
+                tasks.push(obj.value.trim());
+                count++;
+                obj.value = ""; // Clear input field
+                render();
+            }
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            count--;
+            render();
+        }
+
+        function reset() {
+            tasks.length = 0;
+            count = 0;
+            render();
+        }
+
+        function done(obj2, index) {
+            const taskPara = document.getElementById(task-para-${index});
+            if (obj2.checked) {
+                taskPara.style.textDecoration = 'line-through';
+                count--;
+            } else {
+                taskPara.style.textDecoration = 'none';
+                count++;
+            }
+            obj4.innerHTML = Pendings: ${count};
+        }
+
+        function render() {
+            let htmlData = "";
+            for (let i = tasks.length - 1; i >= 0; i--) {
+                htmlData += `
+                <div class="list-item">
+                    <input type="checkbox" onclick="done(this, ${i})" />
+                    <p id="task-para-${i}">${tasks[i]}</p>
+                    <button onclick="deleteTask(${i})">X</button>
+                </div>
+                `;
+            }
+            obj1.innerHTML = htmlData;
+            obj4.innerHTML = Pendings: ${count};
+        }
+    </script>
+</body>
+</html>
